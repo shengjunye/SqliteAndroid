@@ -5,14 +5,16 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
 public class ArticleActivity extends Activity {
-    private long codeArticle;
+    private long idArticle;
     private ArticleDataSource db;
 
     @Override
@@ -55,9 +57,9 @@ public class ArticleActivity extends Activity {
 
         // Busquem el id que estem modificant
         // si el el id es -1 vol dir que s'està creant
-        codeArticle = this.getIntent().getExtras().getLong("id");
+        idArticle = this.getIntent().getExtras().getLong("id");
 
-        if (codeArticle != -1) {
+        if (idArticle != -1) {
             // Si estem modificant carreguem les dades en pantalla
             loadData();
         }
@@ -68,11 +70,20 @@ public class ArticleActivity extends Activity {
             btnDelete.setVisibility(View.GONE);
         }
     }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void loadData() {
         // Demanem un cursor que retorna un sol registre amb les dades de la tasca
-        // Això es podria fer amb un classe pero...
-        Cursor datos = db.articleFind(codeArticle);
+        Cursor datos = db.article(idArticle);
         datos.moveToFirst();
 
         // Carreguem les dades en la interfície
@@ -80,6 +91,10 @@ public class ArticleActivity extends Activity {
 
         tv = (TextView) findViewById(R.id.edtCodi);
         tv.setText(datos.getString(datos.getColumnIndex(ArticleDataSource.ARTICLE_CODEARTICLE)));
+
+        if (idArticle != -1) {
+            this.disableTextView(tv);
+        }
 
         tv = (TextView) findViewById(R.id.edtDescripcion);
         tv.setText(datos.getString(datos.getColumnIndex(ArticleDataSource.ARTICLE_DESCRIPTION)));
@@ -101,20 +116,6 @@ public class ArticleActivity extends Activity {
         // Validem les dades
         TextView tv;
 
-        // Codi ha d'estar informat
-        tv = (TextView) findViewById(R.id.edtCodi);
-        String codi = tv.getText().toString();
-
-        if (codi.trim().equals("") || codi.length() != 7) {
-            myDialogs.showToast(this,"Has d'introduir un codi de 7 digits");
-            return;
-        }
-        long codiL = 0;
-        try {
-            codiL = Long.parseLong(codi);
-        } catch (Exception e){
-            myDialogs.showToast(this, "El codi ha de ser només de numeros");
-        }
 
         // Descripció no pot ser nul.la
         tv = (TextView) findViewById(R.id.edtDescripcion);
@@ -149,23 +150,33 @@ public class ArticleActivity extends Activity {
         }
 
         // Mirem si estem creant o estem guardant
-        if (codeArticle == -1) {
+        if (idArticle == -1) {
+            // Codi ha d'estar informat
+            tv = (TextView) findViewById(R.id.edtCodi);
+            String codi = tv.getText().toString();
+
+            if (codi.trim().equals("") || codi.length() != 7) {
+                myDialogs.showToast(this,"Has d'introduir un codi de 7 digits");
+                return;
+            }
             if (estoc < 0) {
                 //Quan creem, el estoc no pot ser negatiu
                 myDialogs.showToast(this,"El estoc no pot ser un numero negatiu");
                 return;
+            } else if (db.articleFind(codi)){
+                myDialogs.showToastLargo(this,"Aquest producte ja hi existeix a la base de dades");
+                return;
             } else {
-                codeArticle = db.articleAdd(codiL,descripcio,preu,estoc);
+                idArticle = db.articleAdd(codi,descripcio,preu,estoc);
             }
         }
         else {
-            db.articleUpdate(codiL,descripcio,preu,estoc);
-
+            db.articleUpdate(idArticle,descripcio,preu,estoc);
             //Potser falta modificar per filtrar estoc i no estoc
         }
 
         Intent mIntent = new Intent();
-        mIntent.putExtra("id", codeArticle);
+        mIntent.putExtra("id", idArticle);
         setResult(RESULT_OK, mIntent);
 
         finish();
@@ -173,7 +184,7 @@ public class ArticleActivity extends Activity {
 
     private void cancelChanges() {
         Intent mIntent = new Intent();
-        mIntent.putExtra("id", codeArticle);
+        mIntent.putExtra("id", idArticle);
         setResult(RESULT_CANCELED, mIntent);
 
         finish();
@@ -189,20 +200,14 @@ public class ArticleActivity extends Activity {
             // Pedimos confirmación
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-            builder.setMessage("¿Desitja eliminar el article?");
-            builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    db.articleDelete(codeArticle);
+            db.articleDelete(idArticle);
 
-                    Intent mIntent = new Intent();
-                    mIntent.putExtra("id", -1);  // Devolvemos -1 indicant que s'ha eliminat
-                    setResult(RESULT_OK, mIntent);
+            Intent mIntent = new Intent();
+            mIntent.putExtra("id", -1);  // Devolvemos -1 indicant que s'ha eliminat
+            setResult(RESULT_OK, mIntent);
 
-                    finish();
-                }
-            });
+            finish();
 
-            builder.setNegativeButton("No", null);
 
             builder.show();
         } else {
@@ -210,5 +215,12 @@ public class ArticleActivity extends Activity {
             return;
         }
 
+    }
+    private void disableTextView(TextView editText) {
+        editText.setFocusable(false);
+        editText.setEnabled(false);
+        editText.setCursorVisible(false);
+        editText.setKeyListener(null);
+        editText.setBackgroundColor(Color.TRANSPARENT);
     }
 }

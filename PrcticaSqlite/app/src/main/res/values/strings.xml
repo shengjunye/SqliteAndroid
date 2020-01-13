@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Pràctica Sqlite</string>
 
-    <string name="articleCode">Codi Article</string>
-    <string name="description">Descripció</string>
-    <string name="pvp">Preu</string>
-    <string name="stock">Estoc</string>
+    <string name="articleCode">Codi Article:  </string>
+    <string name="description">Descripció:  </string>
+    <string name="pvp">Preu:  </string>
+    <string name="stock">Estoc:  </string>
 
 
 </resources>

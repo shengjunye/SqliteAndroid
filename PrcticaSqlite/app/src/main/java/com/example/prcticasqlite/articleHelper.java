@@ -19,10 +19,11 @@ public class articleHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_ARTICLELIST =
-                "CREATE TABLE articlelist ( _id TEXT PRIMARY KEY, " +
+                "CREATE TABLE articlelist ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        "codiarticle TEXT, " +
                         "description TEXT," +
                         "price FLOAT," +
-                        "stock INTEGER DEFAULT 0)";
+                        "stock INTEGER)";
 
         db.execSQL(CREATE_ARTICLELIST);
     }
