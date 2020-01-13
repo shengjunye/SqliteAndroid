@@ -11,7 +11,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
-    tools:context="com.todolist.intracloud.todolist.toDoListFilterActivity"
     android:orientation="vertical"
     style="@style/stlFilterActivity">
 
@@ -32,7 +31,7 @@
     </LinearLayout>
 
     <ListView
-        android:id="@android:id/list"
+        android:id="@+id/idLlista"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
 

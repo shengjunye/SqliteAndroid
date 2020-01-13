@@ -1,6 +1,5 @@
 package com.example.prcticasqlite;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,7 +14,9 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-public class MainActivity extends ListActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
     private static int ACTIVITY_ARTICLE_ADD = 1;
     private static int ACTIVITY_ARTICLE_UPDATE = 2;
 
@@ -34,6 +35,7 @@ public class MainActivity extends ListActivity {
         setContentView(R.layout.activity_main);
         setTitle("Pràctica SqLite");
 
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //Botó afegir article
         Button btn = (Button)findViewById(R.id.btnAdd);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +50,18 @@ public class MainActivity extends ListActivity {
         db = new ArticleDataSource(this);
         loadArticles();
 
+        ListView list = findViewById(R.id.idLlista);
+        list.setAdapter(scArticle);
+
+        list.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
+                        // modifiquem el id
+                        loadArticles();
+                    }
+                }
+        );
 
     }
 
@@ -84,7 +98,8 @@ public class MainActivity extends ListActivity {
         scArticle.notifyDataSetChanged();
 
         // Ens situem en el primer registre
-        getListView().setSelection(0);
+        ListView list = (ListView) findViewById(R.id.idLlista);
+        list.setSelection(0);
     }
 
     private void filterAmbStock(){
@@ -97,7 +112,8 @@ public class MainActivity extends ListActivity {
         scArticle.notifyDataSetChanged();
 
         // Ens situem en el primer registre
-        getListView().setSelection(0);
+        ListView list = (ListView) findViewById(R.id.idLlista);
+        list.setSelection(0);
     }
     private void filterSenseStock(){
         // Demanem els articles amb la següent descripció
@@ -109,7 +125,8 @@ public class MainActivity extends ListActivity {
         scArticle.notifyDataSetChanged();
 
         // Ens situem en el primer registre
-        getListView().setSelection(0);
+        ListView list = (ListView) findViewById(R.id.idLlista);
+        list.setSelection(0);
     }
 
     private void loadArticles() {
@@ -121,7 +138,8 @@ public class MainActivity extends ListActivity {
         // Now create a simple cursor adapter and set it to display
         scArticle = new adapterArticleListFilter(this, R.layout.row_details, cursorArticles, from, to, 1);
 
-        setListAdapter(scArticle);
+        ListView list = (ListView) findViewById(R.id.idLlista);
+        list.setAdapter(scArticle);
     }
     private void refreshArticles() {
 
@@ -183,13 +201,8 @@ public class MainActivity extends ListActivity {
         }
 
     }
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
 
-        // modifiquem el id
-        updateArticle(id);
-    }
+
 }
 
 class adapterArticleListFilter extends android.widget.SimpleCursorAdapter {

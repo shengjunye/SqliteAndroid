@@ -55,7 +55,7 @@ public class ArticleDataSource {
     public Cursor articleSenseEstoc(){
         //Retornem una llista amb la descripció indicada
         return dbR.query(table_ARTICLE, new String[]{ARTICLE_ID,ARTICLE_CODEARTICLE,ARTICLE_DESCRIPTION,ARTICLE_PRICE,ARTICLE_STOCK},
-                ARTICLE_STOCK + "<=?", new String[]{String.valueOf(0)}, null, null,ARTICLE_ID);
+                ARTICLE_STOCK + "<?", new String[]{String.valueOf(1)}, null, null,ARTICLE_ID);
     }
     public Cursor article(long id){
         //Retornem una llista amb la descripció indicada
