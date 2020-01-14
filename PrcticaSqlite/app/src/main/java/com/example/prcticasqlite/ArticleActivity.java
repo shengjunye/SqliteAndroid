@@ -100,7 +100,7 @@ public class ArticleActivity extends Activity {
         tv.setText(datos.getString(datos.getColumnIndex(ArticleDataSource.ARTICLE_DESCRIPTION)));
 
         tv = (TextView) findViewById(R.id.edtPreu);
-        tv.setText(String.valueOf(datos.getFloat(datos.getColumnIndex(ArticleDataSource.ARTICLE_PRICE))));
+        tv.setText(String.valueOf(datos.getFloat(datos.getColumnIndex(ArticleDataSource.ARTICLE_PRICE))).replace(".",","));
 
         tv = (TextView) findViewById(R.id.edtEstoc);
         tv.setText(String.valueOf(datos.getInt(datos.getColumnIndex(ArticleDataSource.ARTICLE_STOCK))));

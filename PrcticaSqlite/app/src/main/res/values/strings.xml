@@ -13,6 +13,9 @@
     <string name="Activity_article_Price">Preu</string>
     <string name="Activity_article_Stock">Estoc</string>
 
+    <!-- Unitats -->
+    <string name="TxtvCoinValue"> €</string>
+    <string name="TxtvStockUnity"> Unitats</string>
     <!-- Buttons -->
     <string name="btnAccept">ACCEPTAR</string>
     <string name="btnCancel">CANCELAR</string>
