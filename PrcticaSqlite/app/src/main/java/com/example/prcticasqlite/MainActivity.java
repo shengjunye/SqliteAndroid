@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,44 +37,24 @@ public class MainActivity extends AppCompatActivity {
         setTitle("Pràctica SqLite");
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //Botó afegir article
-        Button btn = (Button)findViewById(R.id.btnAdd);
-        btn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                addArticle();
-            }
-        });
-
 
         db = new ArticleDataSource(this);
         loadArticles();
-
-        ListView list = findViewById(R.id.idLlista);
-        list.setAdapter(scArticle);
-
-        list.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
-                        // modifiquem el id
-                        loadArticles();
-                    }
-                }
-        );
 
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.btnAdd:
+                addArticle();
+                return true;
             case R.id.mnuTot:
                 filterTot();
                 return true;
@@ -129,17 +110,45 @@ public class MainActivity extends AppCompatActivity {
         list.setSelection(0);
     }
 
+    private void filterSearch(){
+        // Demanem els articles amb la següent descripció
+
+        TextView tv = (TextView) findViewById(R.id.edtDescripcion);
+        String descripcio = tv.getText().toString();
+
+        Cursor cursorArticles = db.articleSenseEstoc();
+        filterActual = filterKind.FILTER_STOCKUNAVAILABLE;
+
+        // Notifiquem al adapter que les dades han canviat i que refresqui
+        scArticle.changeCursor(cursorArticles);
+        scArticle.notifyDataSetChanged();
+
+        // Ens situem en el primer registre
+        ListView list = (ListView) findViewById(R.id.idLlista);
+        list.setSelection(0);
+    }
     private void loadArticles() {
 
         // Demanem els articles disponibles
         Cursor cursorArticles = db.articleAmbEstoc();
-        filterActual = filterKind.FILTER_STOCKAVAILABLE;
+        filterActual = filterKind.FILTER_ALL;
 
         // Now create a simple cursor adapter and set it to display
         scArticle = new adapterArticleListFilter(this, R.layout.row_details, cursorArticles, from, to, 1);
 
         ListView list = (ListView) findViewById(R.id.idLlista);
         list.setAdapter(scArticle);
+
+        list.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View view, int position, long id) {
+                        // modifiquem el id
+                        updateArticle(id);
+                    }
+                }
+        );
+
     }
     private void refreshArticles() {
 
@@ -163,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
         scArticle.notifyDataSetChanged();
     }
     private void addArticle(){
+
         // Cridem a l'activity del detall de la tasca enviant com a id -1
         Bundle bundle = new Bundle();
         bundle.putLong("id",-1);

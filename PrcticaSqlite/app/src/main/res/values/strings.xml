@@ -1,10 +1,27 @@
 <resources>
     <string name="app_name">Pràctica Sqlite</string>
 
+    //Main
     <string name="articleCode">Codi Article:  </string>
     <string name="description">Descripció:  </string>
     <string name="pvp">Preu:  </string>
     <string name="stock">Estoc:  </string>
 
+    <!-- Activity -->
+    <string name="Activity_article_Codi">Codi Article</string>
+    <string name="Activity_article_Description">Descripció</string>
+    <string name="Activity_article_Price">Preu</string>
+    <string name="Activity_article_Stock">Estoc</string>
+
+    <!-- Buttons -->
+    <string name="btnAccept">ACCEPTAR</string>
+    <string name="btnCancel">CANCELAR</string>
+    <string name="btnDelete">SUPRIMEIX</string>
+
+    <string name="btnAdd">Afegir article</string>
+    <string name="btnFilterMenu">Filtres</string>
+    <string name="btnFilterAll">Mostrar tots els articles</string>
+    <string name="btnFilterStock">Mostrar articles amb estoc</string>
+    <string name="btnFilterNoStock">Mostrar articles sense estoc</string>
 
 </resources>

@@ -72,6 +72,12 @@ public class ArticleDataSource {
         return existeix;
     }
 
+    public Cursor articleDescripcio(String description) {
+        //Retornem una llista amb la descripció indicada
+        return dbR.query(table_ARTICLE, new String[]{ARTICLE_ID,ARTICLE_CODEARTICLE,ARTICLE_DESCRIPTION,ARTICLE_PRICE,ARTICLE_STOCK},
+                ARTICLE_DESCRIPTION + "LIKE?", new String[]{String.valueOf(description)}, null, null,null);
+    }
+
     // ******************
     // Funciones de manipualación de datos
     // ******************

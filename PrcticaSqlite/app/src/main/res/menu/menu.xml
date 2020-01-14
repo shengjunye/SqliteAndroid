@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
 
     <item
-        android:id="@+id/mnuTot"
-        android:title="Mostrar tots els articles" />
+        android:id="@+id/btnAdd"
+        android:title="@string/btnAdd" />
     <item
-        android:id="@+id/mnuAmbStock"
-        android:title="Mostrar articles amb estoc" />
-    <item
-        android:id="@+id/mnuSenseStock"
-        android:title="Mostrar articles sense estoc" />
+        android:id="@+id/lblFiltre"
+        android:title="@string/btnFilterMenu">
+        <menu>
+            <item
+                android:id="@+id/mnuTot"
+                android:title="@string/btnFilterAll" />
+            <item
+                android:id="@+id/mnuAmbStock"
+                android:title="@string/btnFilterStock" />
+            <item
+                android:id="@+id/mnuSenseStock"
+                android:title="@string/btnFilterNoStock" />
+        </menu>
+    </item>
 </menu>

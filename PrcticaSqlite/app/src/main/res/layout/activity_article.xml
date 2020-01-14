@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Codi Article" />
+            android:text="@string/Activity_article_Codi" />
 
         <EditText
             android:layout_width="match_parent"
@@ -33,9 +33,9 @@
             />
 
         <TextView
-            android:text="Descripció"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="@string/Activity_article_Description" />
 
         <EditText
             android:layout_width="match_parent"
@@ -48,7 +48,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Preu" />
+            android:text="@string/Activity_article_Price" />
 
         <EditText
             android:layout_width="match_parent"
@@ -62,7 +62,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Estoc" />
+            android:text="@string/Activity_article_Stock" />
 
         <EditText
             android:id="@+id/edtEstoc"
@@ -78,24 +78,24 @@
             android:text="Eliminar article" />
 
         <Button
-            android:text="ACEPTAR"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/btnOk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:paddingTop="10dp"
-            android:layout_marginTop="30dp"/>
+            android:text="@string/btnAccept" />
 
         <Button
-            android:text="CANCELAR"
+            android:id="@+id/btnCancelar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btnCancelar" />
+            android:text="@string/btnCancel" />
 
         <Button
-            android:text="ELIMINAR"
+            android:id="@+id/btnDelete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btnDelete" />
+            android:text="@string/btnDelete" />
     </LinearLayout>
 </RelativeLayout>
 
