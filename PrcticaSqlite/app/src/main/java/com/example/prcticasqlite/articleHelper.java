@@ -12,24 +12,43 @@ public class articleHelper extends SQLiteOpenHelper {
     //database name
     private static final String database_NAME = "articleDatabase";
 
+    //Table names
+    private static final String TABLE_ARTICLE = "articlelist";
+    private static final String TABLE_MOVEMENT = "movement";
+
     public articleHelper (Context context){
         super(context,database_NAME,null,database_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_ARTICLELIST =
-                "CREATE TABLE articlelist ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "codiarticle TEXT, " +
-                        "description TEXT," +
-                        "price FLOAT," +
-                        "stock INTEGER)";
+        String CREATE_TABLE_ARTICLELIST =
+                "CREATE TABLE "+ TABLE_ARTICLE + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "codiarticle_PK TEXT NOT NULL, " +
+                    "description TEXT NOT NULL," +
+                    "price FLOAT NOT NULL," +
+                    "stock INTEGER NOT NULL)";
 
-        db.execSQL(CREATE_ARTICLELIST);
+        String CREATE_TABLE_MOVEMENT =
+                "CREATE TABLE " + TABLE_MOVEMENT + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "codiarticle_FK TEXT NOT NULL," +
+                        "date TEXT NOT NULL," +
+                        "quantity INTEGER NOT NULL, " +
+                        "type CHAR NOT NULL," +
+                        " FOREIGN KEY (codiarticle_FK) REFERENCES "+ TABLE_ARTICLE +"(codiarticle_PK))";
+
+        db.execSQL(CREATE_TABLE_ARTICLELIST);
+        db.execSQL(CREATE_TABLE_MOVEMENT);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //Nothing
+
+        // on upgrade older tables
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ARTICLE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MOVEMENT);
+
+        //create new tables
+        onCreate(db);
     }
 }

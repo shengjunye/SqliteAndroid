@@ -14,6 +14,11 @@ public class ArticleDataSource {
     public static final String ARTICLE_PRICE = "price";
     public static final String ARTICLE_STOCK = "stock";
 
+    //
+    public static final String MOVEMENT_DATE = "date";
+    public static final String MOVEMENT_QUANTITY = "quantity";
+    public static final String MOVEMENT_TYPE = "type";
+
     private articleHelper dbHelper;
     private SQLiteDatabase dbW, dbR;
 
