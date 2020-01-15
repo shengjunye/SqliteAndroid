@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class articleHelper extends SQLiteOpenHelper {
 
     //database version
-    private static final int database_VERSION = 1;
+    private static final int database_VERSION = 2;
 
     //database name
     private static final String database_NAME = "articleDatabase";
@@ -24,7 +24,7 @@ public class articleHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE_ARTICLELIST =
                 "CREATE TABLE "+ TABLE_ARTICLE + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                    "codiarticle_PK TEXT NOT NULL, " +
+                    "codiarticle TEXT NOT NULL, " +
                     "description TEXT NOT NULL," +
                     "price FLOAT NOT NULL," +
                     "stock INTEGER NOT NULL)";
@@ -35,7 +35,8 @@ public class articleHelper extends SQLiteOpenHelper {
                         "date TEXT NOT NULL," +
                         "quantity INTEGER NOT NULL, " +
                         "type CHAR NOT NULL," +
-                        " FOREIGN KEY (codiarticle_FK) REFERENCES "+ TABLE_ARTICLE +"(codiarticle_PK))";
+                        " FOREIGN KEY (codiarticle_FK) REFERENCES "+ TABLE_ARTICLE +"(codiarticle))";
+
 
         db.execSQL(CREATE_TABLE_ARTICLELIST);
         db.execSQL(CREATE_TABLE_MOVEMENT);
@@ -44,11 +45,10 @@ public class articleHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        // on upgrade older tables
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ARTICLE);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MOVEMENT);
+        if (oldVersion < 2) {
+            // on upgrade older tables
+            db.execSQL(TABLE_MOVEMENT);
+        }
 
-        //create new tables
-        onCreate(db);
     }
 }
