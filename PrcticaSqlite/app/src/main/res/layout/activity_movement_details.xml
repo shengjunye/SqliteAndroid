@@ -35,7 +35,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/Activity_article_Description" />
+            android:text="dia data" />
 
         <EditText
             android:layout_width="match_parent"
@@ -48,7 +48,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/Activity_article_Price" />
+            android:text="Quantitat" />
 
         <EditText
             android:layout_width="match_parent"
@@ -62,7 +62,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/Activity_article_Stock" />
+            android:text="Tipus" />
 
         <EditText
             android:id="@+id/edtTipus"
@@ -70,12 +70,6 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="text" />
-
-        <CheckBox
-            android:id="@+id/chkDeleteArticle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Eliminar article" />
 
         <Button
             android:id="@+id/btnOk"
@@ -91,11 +85,6 @@
             android:layout_height="wrap_content"
             android:text="@string/btnCancel" />
 
-        <Button
-            android:id="@+id/btnDelete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btnDelete" />
     </LinearLayout>
 </RelativeLayout>
 

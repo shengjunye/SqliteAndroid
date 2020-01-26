@@ -23,7 +23,7 @@
         />
 
     <ListView
-        android:id="@+id/idLlista"
+        android:id="@+id/idLlistaMoviment"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
 
