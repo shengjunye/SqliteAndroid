@@ -13,6 +13,9 @@
     <string name="Activity_article_Price">Preu</string>
     <string name="Activity_article_Stock">Estoc</string>
 
+    <string name="Activity_stock_Dia">Dia de modificiació: </string>
+    <string name="Activity_stock_Quantitat">Quantitat: </string>
+    <string name="Activity_stock_Tipus">Tipus: </string>
     <!-- Unitats -->
     <string name="TxtvCoinValue"> €</string>
     <string name="TxtvStockUnity"> Unitats</string>
@@ -30,5 +33,6 @@
     <string name="btnHistorial">Historial</string>
     <string name="btnAddArticle">Afegir estoc</string>
     <string name="btnSubtractArticle">Treure estoc</string>
+
 
 </resources>

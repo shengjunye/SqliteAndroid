@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MovementDetailsActivity"></activity>
-        <activity android:name=".MovementActivity" />
+        <activity android:name=".MovementList"></activity>
+        <activity android:name=".MovementDetailsActivity" />
+        <activity android:name=".StockActivity" />
         <activity android:name=".ArticleActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

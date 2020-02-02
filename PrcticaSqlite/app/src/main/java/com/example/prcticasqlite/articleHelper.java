@@ -20,23 +20,25 @@ public class articleHelper extends SQLiteOpenHelper {
         super(context,database_NAME,null,database_VERSION);
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        String CREATE_TABLE_ARTICLELIST =
-                "CREATE TABLE "+ TABLE_ARTICLE + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+    private String CREATE_TABLE_ARTICLELIST =
+            "CREATE TABLE "+ TABLE_ARTICLE + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                     "codiarticle TEXT NOT NULL, " +
                     "description TEXT NOT NULL," +
                     "price FLOAT NOT NULL," +
                     "stock INTEGER NOT NULL)";
 
-        String CREATE_TABLE_MOVEMENT =
-                "CREATE TABLE " + TABLE_MOVEMENT + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                        "codiarticle_FK TEXT NOT NULL," +
-                        "date TEXT NOT NULL," +
-                        "quantity INTEGER NOT NULL, " +
-                        "type CHAR NOT NULL," +
-                        " FOREIGN KEY (codiarticle_FK) REFERENCES "+ TABLE_ARTICLE +"(codiarticle))";
+    private String CREATE_TABLE_MOVEMENT =
+            "CREATE TABLE " + TABLE_MOVEMENT + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "codiarticle TEXT NOT NULL," +
+                    "date TEXT NOT NULL," +
+                    "quantity INTEGER NOT NULL, " +
+                    "type CHAR NOT NULL," +
+                    "idarticle INTEGER NOT NULL, " +
+                    "FOREIGN KEY (idarticle) REFERENCES "+ TABLE_ARTICLE +"(_id)" +
+                    "ON DELETE CASCADE)";
 
+    @Override
+    public void onCreate(SQLiteDatabase db) {
 
         db.execSQL(CREATE_TABLE_ARTICLELIST);
         db.execSQL(CREATE_TABLE_MOVEMENT);

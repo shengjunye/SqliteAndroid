@@ -5,6 +5,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 public class myDialogs {
+
     public static void showInformacion(Context ctx, String Texto) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 

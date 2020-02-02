@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_task"
     android:layout_width="match_parent"
@@ -29,21 +30,26 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:ems="10"
-            android:id="@+id/edtCodi"
+            android:id="@+id/edtCodiMovement"
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="dia data" />
+            android:text="dia data (dd/mm/yyyy)" />
 
         <EditText
+            android:id="@+id/edtDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
             android:ems="10"
-            android:id="@+id/edtDescripcion"
-            />
+            android:inputType="text" />
+
+        <ImageView
+            android:id="@+id/imgCalendarActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/ic_menu_my_calendar" />
 
         <TextView
             android:layout_width="match_parent"
@@ -55,7 +61,7 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:ems="10"
-            android:id="@+id/edtPreu"
+            android:id="@+id/edtQuantitat"
             />
 
 
@@ -65,7 +71,7 @@
             android:text="Tipus" />
 
         <EditText
-            android:id="@+id/edtTipus"
+            android:id="@+id/edtType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"

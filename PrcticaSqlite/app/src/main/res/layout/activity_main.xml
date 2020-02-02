@@ -23,11 +23,12 @@
         />
 
     <ListView
-        android:id="@+id/idLlistaMoviment"
+        android:id="@+id/idLlista"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
 
         >
+
     </ListView>
 
 </LinearLayout>

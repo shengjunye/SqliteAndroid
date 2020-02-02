@@ -11,6 +11,11 @@
         app:showAsAction="always" />
     <!--app:showAsAction="always" pq surti el icono a fora del menu -->
     <item
+        android:id="@+id/btnMovementsList"
+        android:title="Info"
+        app:showAsAction="always"
+        tools:icon="@android:drawable/ic_menu_info_details" />
+    <item
         android:id="@+id/lblFiltre"
         android:title="@string/btnFilterMenu">
         <menu>

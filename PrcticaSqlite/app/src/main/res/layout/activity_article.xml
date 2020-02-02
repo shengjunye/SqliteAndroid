@@ -65,7 +65,7 @@
             android:text="@string/Activity_article_Stock" />
 
         <EditText
-            android:id="@+id/edtTipus"
+            android:id="@+id/edtEstoc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"

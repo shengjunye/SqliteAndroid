@@ -86,13 +86,17 @@ public class ArticleActivity extends Activity {
         datos.moveToFirst();
 
         // Carreguem les dades en la interfície
-        TextView tv;
+        TextView tv,tvArticle;
+
+        tvArticle = (TextView) findViewById(R.id.edtEstoc);
+
 
         tv = (TextView) findViewById(R.id.edtCodi);
         tv.setText(datos.getString(datos.getColumnIndex(ArticleDataSource.ARTICLE_CODEARTICLE)));
 
         if (idArticle != -1) {
             this.disableTextView(tv);
+            this.disableTextView(tvArticle);
         }
 
         tv = (TextView) findViewById(R.id.edtDescripcion);

@@ -42,10 +42,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
-            android:text="@string/description" />
+            android:text="@string/Activity_stock_Dia" />
 
         <TextView
-            android:id="@+id/lblDescription"
+            android:id="@+id/lblDate"
             style="@style/rowFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,22 +64,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
-            android:text="@string/pvp" />
+            android:text="@string/Activity_stock_Quantitat" />
 
         <TextView
-            android:id="@+id/lblPrice"
+            android:id="@+id/lblQuantity"
             style="@style/rowFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="65dp"
             android:gravity="center" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/TxtvCoinValue" />
 
     </LinearLayout>
 
@@ -93,22 +86,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
-            android:text="@string/stock" />
+            android:text="@string/Activity_stock_Tipus" />
 
         <TextView
-            android:id="@+id/lblStock"
+            android:id="@+id/lblType"
             style="@style/rowFilter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="57dp"
             android:gravity="center" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/TxtvStockUnity" />
 
     </LinearLayout>
 
