@@ -25,46 +25,36 @@
 
         <TextView
             android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:text="Data" />
+
+        <EditText
+            android:id="@+id/edtDateFind"
+            android:layout_width="154dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Data Inici" />
-
-        <TextView
-            android:id="@+id/edtDateInicio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:ems="10"
+            android:inputType="textPersonName" />
 
         <ImageView
-            android:id="@+id/btnCalendarInitial"
+            android:id="@+id/btnCalendariFind"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             app:srcCompat="@android:drawable/ic_menu_my_calendar" />
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Data Final" />
-
-        <TextView
-            android:id="@+id/edtDateFinal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
         <ImageView
-            android:id="@+id/btnCalendariFinal"
+            android:id="@+id/btnRefresh"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+            app:srcCompat="@android:drawable/ic_menu_revert" />
+
     </LinearLayout>
 
     <ListView
-        android:id="@+id/idLlista"
+        android:id="@+id/idLlistaArticleMovement"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
 

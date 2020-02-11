@@ -13,12 +13,12 @@
     >
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="7dp">
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="7dp"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -26,17 +26,16 @@
             android:text="@string/Activity_article_Codi" />
 
         <EditText
+            android:id="@+id/edtCodiMovement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
             android:ems="10"
-            android:id="@+id/edtCodiMovement"
-            />
+            android:inputType="text" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="dia data (dd/mm/yyyy)" />
+            android:text="Data Modificació" />
 
         <EditText
             android:id="@+id/edtDate"
@@ -45,11 +44,11 @@
             android:ems="10"
             android:inputType="text" />
 
-        <ImageView
-            android:id="@+id/imgCalendarActivity"
+        <Button
+            android:id="@+id/btnCalendari"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+            android:text="Calendari" />
 
         <TextView
             android:layout_width="match_parent"
@@ -57,12 +56,11 @@
             android:text="Quantitat" />
 
         <EditText
+            android:id="@+id/edtQuantitat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
             android:ems="10"
-            android:id="@+id/edtQuantitat"
-            />
+            android:inputType="text" />
 
 
         <TextView

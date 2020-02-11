@@ -12,17 +12,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class StockActivity extends Activity {
+    private Context context;
     private long idArticle;
-    private int metode;
+    private String metode;
+    private int stock;
     private ArticleDataSource db;
+    final String USA_FORMAT = "yyyy/MM/dd";
+    final Calendar c = Calendar.getInstance();
 
-    private static Calendar calendar = Calendar.getInstance();
-    private static String dates;
+    private static int dia,mes,any;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +44,7 @@ public class StockActivity extends Activity {
         setTitle("Activity per afegir o treure estock");
 
         db = new ArticleDataSource(this);
-
+        context = StockActivity.this;
         // Botones de aceptar y cancelar
         // Boton ok
         Button btnOk = (Button) findViewById(R.id.btnOk);
@@ -57,15 +70,10 @@ public class StockActivity extends Activity {
         // Busquem el id que estem modificant
         // si el el id es -1 vol dir que s'està creant
         idArticle = this.getIntent().getExtras().getLong("id");
-        metode = this.getIntent().getExtras().getInt("type");
+        metode = this.getIntent().getExtras().getString("type");
+        stock = this.getIntent().getExtras().getInt("stock");
+        loadData();
 
-        if (metode == -1) {
-            // Restem al estoc
-            loadData(metode);
-        }
-        else {
-            loadData(metode);
-        }
     }
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -77,7 +85,7 @@ public class StockActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void loadData(int metode) {
+    private void loadData() {
         // Demanem un cursor que retorna un sol registre amb les dades de la tasca
         Cursor datos = db.article(idArticle);
         datos.moveToFirst();
@@ -91,21 +99,23 @@ public class StockActivity extends Activity {
         //No es pot modificar el codi
         this.disableTextView(tv);
 
-        tv = (TextView) findViewById(R.id.edtDate);
-        tv.setText("-");
+        final TextView tvC = (TextView) findViewById(R.id.edtDate);
+        disableTextView(tvC);
+        Button img = (Button) findViewById(R.id.btnCalendari);
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                calendarDialog(tvC);
+            }
+        });
 
         tv = (TextView) findViewById(R.id.edtQuantitat);
-        tv.setText("0");
+        tv.setText("");
 
         tv = (TextView) findViewById(R.id.edtType);
         disableTextView(tv);
-
-        if (metode == -1) {
-            tv.setText("Sortida");
-        } else {
-            tv.setText("Entrada");
-        }
-
+        tv.setText(metode);
 
     }
 
@@ -118,23 +128,21 @@ public class StockActivity extends Activity {
         String codi = tv.getText().toString();
 
         tv = (TextView) findViewById(R.id.edtDate);
-        String date;
-
-        try {
-            date = "dd/MM/yyyy";
-        }
-        catch (Exception e) {
-            myDialogs.showToast(this,"L'estoc ha de ser un valor numeric enter");
-            return;
+        String diaUsa = tv.getText().toString();
+        if (diaUsa.isEmpty()) {
+            diaUsa = (String.valueOf(c.get(Calendar.YEAR))+"/"+String.valueOf(c.get(Calendar.MONTH))+"/"+String.valueOf(c.get(Calendar.DAY_OF_MONTH)));
         }
 
         tv = (TextView) findViewById(R.id.edtQuantitat);
         int quantitat;
         try {
             quantitat = Integer.valueOf(tv.getText().toString());
+            if (metode.equals("Sortida")) {
+                quantitat = -quantitat;
+            }
         }
         catch (Exception e) {
-            myDialogs.showToast(this,"L'estoc ha de ser un valor numeric enter");
+            myDialogs.showToast(this,"La quantitat introduida ha de ser un valor numeric enter");
             return;
         }
 
@@ -142,15 +150,13 @@ public class StockActivity extends Activity {
         String type = tv.getText().toString();
 
 
-        db.movementAdd(idArticle,codi,date,quantitat,type);
-        //Potser falta modificar per filtrar estoc i no estoc
+        db.movementAdd(idArticle,codi,diaUsa,quantitat,type);
 
-
-        Intent mIntent = new Intent();
-        mIntent.putExtra("id", idArticle);
-        setResult(RESULT_OK, mIntent);
+        db.articleStockUpdate(idArticle,stock,quantitat);
 
         myDialogs.showToast(this,"Moviment Afegit");
+        //Potser falta modificar per filtrar estoc i no estoc
+
         finish();
     }
 
@@ -169,30 +175,31 @@ public class StockActivity extends Activity {
         editText.setKeyListener(null);
         editText.setBackgroundColor(Color.TRANSPARENT);
     }
-    public static void Dialog(Context contex, final TextView edt){
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(contex, new DatePickerDialog.OnDateSetListener() {
+    public void calendarDialog(final TextView edt) {
+        dia = c.get(Calendar.DAY_OF_MONTH);
+        mes = c.get(Calendar.MONTH);
+        any = c.get(Calendar.YEAR);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker datePicker, int years, int months, int days) {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                if (months < 10 && days < 10) {
-                    dates = "0" + days + "/" + "0" + (months + 1) + "/" + years;
-                } else if (months < 10) {
-                    dates = days + "/" + "0" + (months + 1) + "/" + years;
-                } else if (days < 10) {
-                    dates = "0" + days + "/" + (months + 1) + "/" + years;
-                } else {
-                    dates = days + "/" + (months + 1) + "/" + years;
+                String diaUsa = year+"/"+(monthOfYear+1)+"/"+dayOfMonth;
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat(USA_FORMAT);
+                    Date d = sdf.parse(diaUsa);
+                    sdf.applyPattern(USA_FORMAT);
+                    diaUsa = sdf.format(d);
+                } catch (Exception e) {
+                    myDialogs.showToast(context,"Error en canviar el tipus de data");
+                    return;
                 }
-
-                edt.setText(dates);
+                edt.setText(diaUsa);
 
             }
-        },year,month,day);
+        },any,mes,dia);
         datePickerDialog.show();
-
     }
+
 }

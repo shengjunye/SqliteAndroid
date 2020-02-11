@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        db = new ArticleDataSource(this);
+        db = new ArticleDataSource(MainActivity.this);
         loadArticles();
 
     }
@@ -170,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
         );
 
     }
-    private void refreshArticles() {
+    public void refreshArticles() {
 
         Cursor cursorArticles = null;
 
@@ -240,9 +241,9 @@ class adapterArticleListFilter extends android.widget.SimpleCursorAdapter {
     private static final String colorStockUnaviable = "#d78290";
     private static final String colorStockAvailable = "#d7d7d7";
 
-    public adapterArticleListFilter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
-        super(context, layout, c, from, to, flags);
-        this.context = (MainActivity) context;
+    public adapterArticleListFilter(Context contextM, int layout, Cursor c, String[] from, int[] to, int flags) {
+        super(contextM, layout, c, from, to, flags);
+        context = (MainActivity) contextM;
     }
 
     @Override
@@ -273,18 +274,15 @@ class adapterArticleListFilter extends android.widget.SimpleCursorAdapter {
             public void onClick(View v) {
                 myDialogs.showToast(context,"Dialog historial");
 
-
                 View row = (View) v.getParent();
-
-                ListView lv = (ListView) row.getParent();
-
+                ListView lv = (ListView) row.getParent().getParent();
                 int position = lv.getPositionForView(row);
 
                 // Carrego la linia del cursor de la posició.
                 Cursor linia = (Cursor) getItem(position);
-
+                Log.d("idaa", String.valueOf(linia.getLong(linia.getColumnIndexOrThrow(ArticleDataSource.ARTICLE_ID))));
                 Intent myIntent = new Intent(context, MovementDetailsActivity.class);
-                myIntent.putExtra("id", linia.getString(linia.getColumnIndexOrThrow(ArticleDataSource.ARTICLE_ID)));
+                myIntent.putExtra("id", linia.getLong(linia.getColumnIndexOrThrow(ArticleDataSource.ARTICLE_ID)));
                 myIntent.putExtra("code", linia.getString(linia.getColumnIndexOrThrow(ArticleDataSource.ARTICLE_CODEARTICLE)));
                 context.startActivity(myIntent);
 
@@ -296,7 +294,7 @@ class adapterArticleListFilter extends android.widget.SimpleCursorAdapter {
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 myDialogs.showToast(context,"afegir estoc");
-                Movement(true, idArticle);
+                Movement(true, idArticle,stock);
             }
         });
 
@@ -305,30 +303,30 @@ class adapterArticleListFilter extends android.widget.SimpleCursorAdapter {
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 myDialogs.showToast(context,"restar estoc");
-                Movement(false, idArticle);
+                Movement(false, idArticle,stock);
             }
         });
 
         return view;
     }
 
-    private void Movement(boolean afegir,int idArticle){
+    private void Movement(boolean afegir,int idArticle,int stock){
 
         // Cridem a l'activity del detall de la tasca enviant com a id -1
         Bundle bundle = new Bundle();
         Intent i = new Intent(context, StockActivity.class);
         bundle.putLong("id",idArticle);
-
+        bundle.putInt("stock",stock);
         if (afegir) {
-            bundle.putLong("type",1);
+            bundle.putString("type","Entrada");
             i.putExtras(bundle);
-            context.startActivityForResult(i, ACTIVITY_STOCK_ADD);
+            context.startActivity(i);
         } else {
-            bundle.putLong("type",-1);
+            bundle.putString("type","Sortida");
             i.putExtras(bundle);
-            context.startActivityForResult(i, ACTIVITY_STOCK_QUIT);
+            context.startActivity(i);
         }
-
+        context.refreshArticles();
     }
 
 

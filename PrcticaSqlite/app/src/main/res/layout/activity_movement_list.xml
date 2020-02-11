@@ -24,15 +24,9 @@
         >
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Data Inici" />
-
-        <TextView
             android:id="@+id/edtDateInicio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="76dp"
+            android:layout_height="match_parent"
             android:layout_weight="1" />
 
         <ImageView
@@ -42,17 +36,17 @@
             android:layout_weight="1"
             app:srcCompat="@android:drawable/ic_menu_my_calendar" />
 
-        <TextView
-            android:id="@+id/textView4"
+        <ImageView
+            android:id="@+id/btnResfreshInitial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Data Final" />
+            app:srcCompat="@android:drawable/ic_menu_revert" />
 
         <TextView
             android:id="@+id/edtDateFinal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="79dp"
+            android:layout_height="match_parent"
             android:layout_weight="1" />
 
         <ImageView
@@ -61,10 +55,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             app:srcCompat="@android:drawable/ic_menu_my_calendar" />
+
+        <ImageView
+            android:id="@+id/btnRefreshFinal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@android:drawable/ic_menu_revert" />
     </LinearLayout>
 
     <ListView
-        android:id="@+id/idLlista"
+        android:id="@+id/idLlistaMovements"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
 

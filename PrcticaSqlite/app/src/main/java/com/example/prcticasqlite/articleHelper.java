@@ -3,6 +3,7 @@ package com.example.prcticasqlite;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class articleHelper extends SQLiteOpenHelper {
 
@@ -22,7 +23,7 @@ public class articleHelper extends SQLiteOpenHelper {
 
     private String CREATE_TABLE_ARTICLELIST =
             "CREATE TABLE "+ TABLE_ARTICLE + " ( _id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                    "codiarticle TEXT NOT NULL, " +
+                    "codiarticle TEXT NOT NULL," +
                     "description TEXT NOT NULL," +
                     "price FLOAT NOT NULL," +
                     "stock INTEGER NOT NULL)";
@@ -32,16 +33,17 @@ public class articleHelper extends SQLiteOpenHelper {
                     "codiarticle TEXT NOT NULL," +
                     "date TEXT NOT NULL," +
                     "quantity INTEGER NOT NULL, " +
-                    "type CHAR NOT NULL," +
-                    "idarticle INTEGER NOT NULL, " +
+                    "type TEXT NOT NULL," +
+                    "idarticle INTEGER NOT NULL," +
                     "FOREIGN KEY (idarticle) REFERENCES "+ TABLE_ARTICLE +"(_id)" +
                     "ON DELETE CASCADE)";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        Log.d("onCreate","Abans de crear taules");
         db.execSQL(CREATE_TABLE_ARTICLELIST);
         db.execSQL(CREATE_TABLE_MOVEMENT);
+        Log.d("onCreate","Despres de crear taules");
     }
 
     @Override

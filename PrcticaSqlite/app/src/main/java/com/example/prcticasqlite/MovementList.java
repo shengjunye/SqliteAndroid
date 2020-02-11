@@ -11,21 +11,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class MovementList extends AppCompatActivity {
     private static Context context;
-    private long idArticle;
-    private int metode;
+    final String USA_FORMAT = "yyyy/MM/dd";
+    final Calendar c = Calendar.getInstance();
     private ArticleDataSource db;
 
-    private adapterArticleListFilter scMoviment;
-    private static Calendar calendar = Calendar.getInstance();
-    private static String dates;
+    private adapterAllMovementLists scMoviment;
+    private int dia,mes,any;
 
     private static String[] from = new String[]{ArticleDataSource.MOVEMENT_CODEARTICLE,ArticleDataSource.MOVEMENT_DATE,ArticleDataSource.MOVEMENT_QUANTITY,ArticleDataSource.MOVEMENT_TYPE};
     private static int[] to = new int[]{R.id.lblCode,R.id.lblDate,R.id.lblQuantity,R.id.lblType};
@@ -36,80 +40,119 @@ public class MovementList extends AppCompatActivity {
         setContentView(R.layout.activity_movement_list);
         MovementList.context = getApplicationContext();
 
+        db = new ArticleDataSource(this);
+
+        movementListAll();
+
+        final TextView dataI,dataF;
+        dataI = findViewById(R.id.edtDateInicio);
+        dataF = findViewById(R.id.edtDateFinal);
+
         //Afegir estoc
         ImageView img = (ImageView) findViewById(R.id.btnCalendarInitial);
-        final TextView tv = (TextView) findViewById(R.id.edtDateInicio);
+        //final TextView tv = (TextView) findViewById(R.id.edtDateInicio);
 
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 myDialogs.showToast(context,"Data inicial");
-                Dialog(context, tv);
+                calendarDialog(dataI);
+                filterDate(dataI, dataF);
+            }
+        });
+        img = findViewById(R.id.btnResfreshInitial);
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dataI.setText("");
+                filterDate(dataI,dataF);
             }
         });
         img = (ImageView) findViewById(R.id.btnCalendariFinal);
-        TextView tv2 = (TextView) findViewById(R.id.edtDateFinal);
+        //TextView tv2 = (TextView) findViewById(R.id.edtDateFinal);
 
         img.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 myDialogs.showToast(context,"Data final");
-                Dialog(context, tv);
+                calendarDialog(dataF);
+                filterDate(dataI, dataF);
+
+            }
+        });
+        img = findViewById(R.id.btnRefreshFinal);
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dataF.setText("");
+                filterDate(dataI,dataF);
             }
         });
 
-
     }
 
-    public static void Dialog(Context contex, final TextView edt){
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+    private void filterDate(TextView edt1,TextView edt2){
+        if (edt1.getText().length() > 1 && edt2.getText().length() > 1){
+            Cursor cursorDates = db.movementBetweenDates(edt1.getText().toString(),edt2.getText().toString());
+            scMoviment.changeCursor(cursorDates);
+            scMoviment.notifyDataSetChanged();
+        } else if (edt1.getText().length() > 1){
+            Cursor cursorDates = db.movementInitialDate(edt1.getText().toString());
+            scMoviment.changeCursor(cursorDates);
+            scMoviment.notifyDataSetChanged();
+        } else {
+            Cursor cursorDates = db.movementFinalDate(edt2.getText().toString());
+            scMoviment.changeCursor(cursorDates);
+            scMoviment.notifyDataSetChanged();
+        }
+    }
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(contex, new DatePickerDialog.OnDateSetListener() {
+    public void calendarDialog(final TextView edt) {
+        dia = c.get(Calendar.DAY_OF_MONTH);
+        mes = c.get(Calendar.MONTH);
+        any = c.get(Calendar.YEAR);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker datePicker, int years, int months, int days) {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                if (months < 10 && days < 10) {
-                    dates = "0" + days + "/" + "0" + (months + 1) + "/" + years;
-                } else if (months < 10) {
-                    dates = days + "/" + "0" + (months + 1) + "/" + years;
-                } else if (days < 10) {
-                    dates = "0" + days + "/" + (months + 1) + "/" + years;
-                } else {
-                    dates = days + "/" + (months + 1) + "/" + years;
+                String diaUsa = year+"/"+(monthOfYear+1)+"/"+dayOfMonth;
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat(USA_FORMAT);
+                    Date d = sdf.parse(diaUsa);
+                    sdf.applyPattern(USA_FORMAT);
+                    diaUsa = sdf.format(d);
+                } catch (Exception e) {
+                    return;
                 }
-
-                edt.setText(dates);
+                edt.setText(diaUsa);
 
             }
-        },year,month,day);
+        },any,mes,dia);
         datePickerDialog.show();
-
     }
 
 
     private void movementListAll(){
         // Demanem els articles disponibles
-        Cursor cursorArticles = db.articleAmbEstoc();
+
+        Cursor cursorArticles = db.movementList();
 
         // Now create a simple cursor adapter and set it to display
-        scMoviment = new adapterArticleListFilter(this, R.layout.movement_row_details, cursorArticles, from, to, 1);
+        scMoviment = new adapterAllMovementLists(this, R.layout.movement_row_details, cursorArticles, from, to, 1);
 
-        ListView list = (ListView) findViewById(R.id.idLlista);
+        ListView list = (ListView) findViewById(R.id.idLlistaMovements);
         list.setAdapter(scMoviment);
 
     }
 
 }
 
-class adapterMovementLists extends android.widget.SimpleCursorAdapter {
-    private Context context;
+class adapterAllMovementLists extends android.widget.SimpleCursorAdapter {
 
-    private static final String colorStockUnaviable = "#d78290";
-    private static final String colorStockAvailable = "#d7d7d7";
+    private static final String colorStockUnaviable = "#fc5d5d";
+    private static final String colorStockAvailable = "#5dfc80";
 
-    public adapterMovementLists(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
+    public adapterAllMovementLists(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
         super(context, layout, c, from, to, flags);
-        this.context = context;
     }
 
     @Override
@@ -119,23 +162,21 @@ class adapterMovementLists extends android.widget.SimpleCursorAdapter {
 
         // Agafem l'objecte de la view que es una LINEA DEL CURSOR
         Cursor element = (Cursor) getItem(position);
-        final int stock = element.getInt(
-                element.getColumnIndexOrThrow(ArticleDataSource.ARTICLE_STOCK)
+        final String metode = element.getString(
+                element.getColumnIndexOrThrow(ArticleDataSource.MOVEMENT_TYPE)
         );
 
 
         // Pintem el fons de la view segons hi ha estock o no
-        if (stock <= 0) {
+        if (metode.equalsIgnoreCase("Sortida")) {
             view.setBackgroundColor(Color.parseColor(colorStockUnaviable));
-        }
-        else {
+        } else {
             view.setBackgroundColor(Color.parseColor(colorStockAvailable));
         }
-        TextView tv = (TextView)
+
 
         return view;
     }
-
 }
 
 
