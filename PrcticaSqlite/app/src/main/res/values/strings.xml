@@ -19,6 +19,7 @@
     <!-- Unitats -->
     <string name="TxtvCoinValue"> €</string>
     <string name="TxtvStockUnity"> Unitats</string>
+    <string name="lblWeatherTemp"> 34º</string>
     <!-- Buttons -->
     <string name="btnAccept">ACCEPTAR</string>
     <string name="btnCancel">CANCELAR</string>
@@ -29,10 +30,11 @@
     <string name="btnFilterAll">Mostrar tots els articles</string>
     <string name="btnFilterStock">Mostrar articles amb estoc</string>
     <string name="btnFilterNoStock">Mostrar articles sense estoc</string>
-
+    <string name="btnWeather">Temps</string>
+    <string name="btnMovementList">Info</string>
     <string name="btnHistorial">Historial</string>
     <string name="btnAddArticle">Afegir estoc</string>
     <string name="btnSubtractArticle">Treure estoc</string>
-
+    <string name="btnSearch">Buscar</string>
 
 </resources>

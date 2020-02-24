@@ -61,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btnAdd:
                 addArticle();
                 return true;
+            case R.id.btnWeather:
+                activityWeather();
+                return true;
             case R.id.btnMovementsList:
                 movementListAll();
                 return true;
@@ -77,7 +80,10 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    private void activityWeather() {
+        Intent i = new Intent(this,WeatherActivity.class);
+        this.startActivity(i);
+    }
     private void movementListAll(){
         // Cridem a l'activity del detall de la tasca enviant com a id -1
         Bundle bundle = new Bundle();

@@ -39,7 +39,7 @@ public class MovementList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movement_list);
         MovementList.context = getApplicationContext();
-
+        setTitle("Moviments de tots els articles");
         db = new ArticleDataSource(this);
 
         movementListAll();

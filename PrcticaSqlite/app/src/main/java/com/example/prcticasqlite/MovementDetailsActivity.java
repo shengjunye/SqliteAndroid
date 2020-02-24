@@ -41,7 +41,8 @@ public class MovementDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movement);
-        setTitle("Article activity");
+        setTitle("Moviments del article");
+
         context = MovementDetailsActivity.this;
         db = new ArticleDataSource(this);
         idArticle = this.getIntent().getExtras().getLong("id");
