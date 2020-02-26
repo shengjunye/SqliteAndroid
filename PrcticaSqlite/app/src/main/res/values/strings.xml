@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Pràctica Sqlite</string>
 
-    //Main
+    <!-- Main -->
     <string name="articleCode">Codi Article:  </string>
     <string name="description">Descripció:  </string>
     <string name="pvp">Preu:  </string>
@@ -13,9 +13,13 @@
     <string name="Activity_article_Price">Preu</string>
     <string name="Activity_article_Stock">Estoc</string>
 
+    <string name="Activity_stock_Dia">Dia de modificiació: </string>
+    <string name="Activity_stock_Quantitat">Quantitat: </string>
+    <string name="Activity_stock_Tipus">Tipus: </string>
     <!-- Unitats -->
     <string name="TxtvCoinValue"> €</string>
     <string name="TxtvStockUnity"> Unitats</string>
+    <string name="lblWeatherTemp"> 34º</string>
     <!-- Buttons -->
     <string name="btnAccept">ACCEPTAR</string>
     <string name="btnCancel">CANCELAR</string>
@@ -26,5 +30,11 @@
     <string name="btnFilterAll">Mostrar tots els articles</string>
     <string name="btnFilterStock">Mostrar articles amb estoc</string>
     <string name="btnFilterNoStock">Mostrar articles sense estoc</string>
+    <string name="btnWeather">Temps</string>
+    <string name="btnMovementList">Info</string>
+    <string name="btnHistorial">Historial</string>
+    <string name="btnAddArticle">Afegir estoc</string>
+    <string name="btnSubtractArticle">Treure estoc</string>
+    <string name="btnSearch">Buscar</string>
 
 </resources>
